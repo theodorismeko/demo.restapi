@@ -48,8 +48,7 @@ The application follows a **3-tier layered architecture** pattern:
 - **Maven**: Dependency management and build tool
 
 ### Database
-- **H2 (Development)**: In-memory database for rapid development
-- **PostgreSQL (Production)**: Robust, open-source relational database
+- **PostgreSQL**: Robust, open-source relational database for all environments
 
 ### Additional Libraries
 - **Lombok**: Reduces boilerplate code
@@ -219,7 +218,8 @@ src/main/java/com/meko/restapi/
 ## Deployment Strategy
 
 ### Development Environment
-- **H2 In-Memory Database**: Quick setup, no installation required
+- **PostgreSQL Database**: Consistent database across all environments
+- **Docker Compose**: Provides PostgreSQL and pgAdmin for development
 - **Spring Boot DevTools**: Hot reload capability
 - **Debug Logging**: Detailed logs for troubleshooting
 
@@ -232,8 +232,8 @@ src/main/java/com/meko/restapi/
 ### Configuration Management
 ```properties
 # Development (application-dev.properties)
-spring.datasource.url=jdbc:h2:mem:testdb
-spring.jpa.hibernate.ddl-auto=create-drop
+spring.datasource.url=jdbc:postgresql://localhost:5432/matches_dev
+spring.jpa.hibernate.ddl-auto=update
 
 # Production (application-prod.properties)
 spring.datasource.url=${DATABASE_URL}
