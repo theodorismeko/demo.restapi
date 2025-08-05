@@ -10,21 +10,6 @@ jobs:
   test:
     runs-on: ubuntu-latest
     
-    services:
-      postgres:
-        image: postgres:15
-        env:
-          POSTGRES_PASSWORD: password
-          POSTGRES_USER: postgres
-          POSTGRES_DB: matches
-        ports:
-          - 5432:5432
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -41,19 +26,6 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-
-      - name: Wait for PostgreSQL
-        run: |
-          for i in {1..30}; do
-            nc -z localhost 5432 && break
-            sleep 1
-          done
-
-      - name: Set up PostgreSQL
-        run: |
-          PGPASSWORD=password psql -h localhost -U postgres -d matches -c "SELECT 1 FROM pg_database WHERE datname = 'postgres'" | grep -q 1 || PGPASSWORD=password psql -h localhost -U postgres -d matches -c "CREATE DATABASE postgres;"
-        env:
-          PGPASSWORD: password
 
       - name: Run tests
         run: mvn clean test
