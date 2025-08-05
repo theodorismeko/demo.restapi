@@ -17,15 +17,15 @@ public class MatchOddsDTO {
     private Long id;
     
     @NotNull(message = "Match ID is required")
-    @Schema(description = "ID of the associated match", example = "1", required = true)
+    @Schema(description = "ID of the associated match", example = "1")
     private Long matchId;
     
     @NotBlank(message = "Specifier is required")
-    @Schema(description = "Betting specifier (e.g., X for draw, 1 for home win, 2 for away win)", example = "X", required = true)
+    @Schema(description = "Betting specifier (e.g., X for draw, 1 for home win, 2 for away win)", example = "X")
     private String specifier;
     
     @NotNull(message = "Odd is required")
     @Positive(message = "Odd must be positive")
-    @Schema(description = "Betting odd value", example = "1.5", required = true, minimum = "0.01")
+    @Schema(description = "Betting odd value", example = "1.5", minimum = "0.01")
     private Double odd;
 }

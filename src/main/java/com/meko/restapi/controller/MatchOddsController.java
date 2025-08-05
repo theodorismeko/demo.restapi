@@ -1,7 +1,7 @@
 package com.meko.restapi.controller;
 
 import com.meko.restapi.dto.MatchOddsDTO;
-import com.meko.restapi.service.MatchService;
+import com.meko.restapi.service.MatchOddsService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
@@ -24,7 +24,7 @@ import java.util.List;
 @Tag(name = "Match Odds Management", description = "API endpoints for managing match betting odds")
 public class MatchOddsController {
     
-    private final MatchService matchService;
+    private final MatchOddsService matchOddsService;
     
     @Operation(summary = "Create match odds", description = "Creates new betting odds for a specific match")
     @ApiResponses(value = {
@@ -35,7 +35,7 @@ public class MatchOddsController {
     })
     @PostMapping
     public ResponseEntity<MatchOddsDTO> createMatchOdds(@Valid @RequestBody MatchOddsDTO matchOddsDTO) {
-        MatchOddsDTO createdOdds = matchService.createMatchOdds(matchOddsDTO);
+        MatchOddsDTO createdOdds = matchOddsService.createMatchOdds(matchOddsDTO);
         return new ResponseEntity<>(createdOdds, HttpStatus.CREATED);
     }
     
@@ -50,7 +50,7 @@ public class MatchOddsController {
     public ResponseEntity<MatchOddsDTO> getMatchOddsById(
             @Parameter(description = "ID of the match odds to retrieve", required = true)
             @PathVariable Long id) {
-        MatchOddsDTO matchOdds = matchService.getMatchOddsById(id);
+        MatchOddsDTO matchOdds = matchOddsService.getMatchOddsById(id);
         return ResponseEntity.ok(matchOdds);
     }
     
@@ -65,7 +65,7 @@ public class MatchOddsController {
     public ResponseEntity<List<MatchOddsDTO>> getMatchOddsByMatchId(
             @Parameter(description = "ID of the match for which to retrieve odds", required = true)
             @PathVariable Long matchId) {
-        List<MatchOddsDTO> matchOdds = matchService.getMatchOddsByMatchId(matchId);
+        List<MatchOddsDTO> matchOdds = matchOddsService.getMatchOddsByMatchId(matchId);
         return ResponseEntity.ok(matchOdds);
     }
     
@@ -82,7 +82,7 @@ public class MatchOddsController {
             @Parameter(description = "ID of the match odds to update", required = true)
             @PathVariable Long id,
             @Valid @RequestBody MatchOddsDTO matchOddsDTO) {
-        MatchOddsDTO updatedOdds = matchService.updateMatchOdds(id, matchOddsDTO);
+        MatchOddsDTO updatedOdds = matchOddsService.updateMatchOdds(id, matchOddsDTO);
         return ResponseEntity.ok(updatedOdds);
     }
     
@@ -96,7 +96,7 @@ public class MatchOddsController {
     public ResponseEntity<Void> deleteMatchOdds(
             @Parameter(description = "ID of the match odds to delete", required = true)
             @PathVariable Long id) {
-        matchService.deleteMatchOdds(id);
+        matchOddsService.deleteMatchOdds(id);
         return ResponseEntity.noContent().build();
     }
 }

@@ -7,7 +7,7 @@ COPY pom.xml .
 COPY src ./src
 
 # Now run the build
-RUN mvn clean package -DskipTests
+RUN mvn clean package
 
 # Stage 2: Run with slim Java base image
 FROM eclipse-temurin:21-jre-jammy

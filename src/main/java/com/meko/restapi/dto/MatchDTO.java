@@ -21,27 +21,27 @@ public class MatchDTO {
     private Long id;
     
     @NotBlank(message = "Description is required")
-    @Schema(description = "Match description", example = "OSFP-PAO", required = true)
+    @Schema(description = "Match description", example = "OSFP-PAO")
     private String description;
     
     @NotNull(message = "Match date is required")
-    @Schema(description = "Date of the match", example = "2024-03-31", required = true)
+    @Schema(description = "Date of the match", example = "2024-03-31")
     private LocalDate matchDate;
     
     @NotNull(message = "Match time is required")
-    @Schema(description = "Time of the match", example = "12:00", required = true)
+    @Schema(description = "Time of the match", example = "12:00")
     private LocalTime matchTime;
     
     @NotBlank(message = "Team A is required")
-    @Schema(description = "First team name", example = "OSFP", required = true)
+    @Schema(description = "First team name", example = "OSFP")
     private String teamA;
     
     @NotBlank(message = "Team B is required")
-    @Schema(description = "Second team name", example = "PAO", required = true)
+    @Schema(description = "Second team name", example = "PAO")
     private String teamB;
     
     @NotNull(message = "Sport is required")
-    @Schema(description = "Type of sport", example = "FOOTBALL", required = true)
+    @Schema(description = "Type of sport", example = "FOOTBALL")
     private Sport sport;
     
     @Schema(description = "List of betting odds for this match")
