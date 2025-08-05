@@ -49,6 +49,12 @@ jobs:
             sleep 1
           done
 
+      - name: Set up PostgreSQL
+        run: |
+          PGPASSWORD=password psql -h localhost -U postgres -d matches -c "CREATE DATABASE IF NOT EXISTS postgres;"
+        env:
+          PGPASSWORD: password
+
       - name: Run tests
         run: mvn clean test
         env:
