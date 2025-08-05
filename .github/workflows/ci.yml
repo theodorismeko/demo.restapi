@@ -51,7 +51,7 @@ jobs:
 
       - name: Set up PostgreSQL
         run: |
-          PGPASSWORD=password psql -h localhost -U postgres -d matches -c "CREATE DATABASE IF NOT EXISTS postgres;"
+          PGPASSWORD=password psql -h localhost -U postgres -d matches -c "SELECT 1 FROM pg_database WHERE datname = 'postgres'" | grep -q 1 || PGPASSWORD=password psql -h localhost -U postgres -d matches -c "CREATE DATABASE postgres;"
         env:
           PGPASSWORD: password
 
