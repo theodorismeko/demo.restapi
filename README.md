@@ -314,10 +314,6 @@ start target/site/jacoco/index.html
 open target/site/jacoco/index.html
 ```
 
-### 🆕 Testcontainers Integration
-- **Real Database Testing**: PostgreSQL containers for integration tests
-- **Isolated Test Environment**: Each test gets a fresh database instance
-- **Production-Like Testing**: Tests run against the same database type as production
 
 ## 🛠️ Development
 
@@ -361,35 +357,9 @@ docker build -t match-betting-api .
 | **Database Admin** | pgAdmin 4 |
 | **Code Reduction** | Lombok |
 | **Validation** | Bean Validation (JSR-303) |
-| **🆕 Testing** | JUnit 5, Mockito, Testcontainers |
+| **🆕 Testing** | JUnit 5, Mockito |
 | **🆕 Code Coverage** | JaCoCo |
 | **🆕 Test Database** | H2 Database |
-
-## 📖 Documentation Guides
-
-The project includes comprehensive documentation in the `/guide` folder:
-
-### 🎯 Quick References
-- **[Quick Reference](guide/QUICK_REFERENCE.md)** - Cheat sheet for common patterns
-- **[Beginner Guide](guide/README_BEGINNER.md)** - Step-by-step tutorial for beginners
-
-### 🏗️ Architecture & Design
-- **[Design Patterns](guide/DESIGN_PATTERNS_DIAGRAM.md)** - Patterns used in the application
-- **[Spring Patterns Analysis](guide/SPRING_PATTERNS_ANALYSIS.md)** - Spring-specific patterns
-- **[Visual Diagrams](guide/VISUAL_DIAGRAMS.md)** - Architecture diagrams and flowcharts
-
-### 🧪 Testing & Quality
-- **[CI/CD Testing Guide](guide/CI_CD_TESTING_GUIDE.md)** - Testing strategies and CI/CD setup
-- **[JaCoCo Configuration](guide/JACOCO_ENCODING_FIX.md)** - Code coverage setup help
-
-### 💼 Interview Preparation
-- **[Interview Preparation](guide/INTERVIEW_PREPARATION_GUIDE.md)** - Technical interview prep
-- **[Skills Demo](guide/INTERVIEW_SKILLS_DEMO.md)** - How to demonstrate project skills
-- **[8-Hour Interview Sprint](guide/8_HOUR_INTERVIEW_SPRINT.md)** - Intensive interview preparation
-
-### 🔍 Code Review
-- **[Code Review Guidelines](guide/CODE_REVIEW_DETAILED.md)** - Best practices for code review
-- **[Comprehensive Review](guide/COMPREHENSIVE_CODE_REVIEW.md)** - Detailed code analysis
 
 ## 🚀 Getting Started for Developers
 
@@ -423,17 +393,6 @@ docker-compose up -d
 # Verify build
 ./mvnw clean package
 ```
-
-## 🎯 Project Highlights
-
-This project demonstrates:
-
-- ✅ **Clean Architecture**: Proper separation of concerns
-- ✅ **Test-Driven Development**: Comprehensive test coverage
-- ✅ **Enterprise Patterns**: Industry-standard design patterns
-- ✅ **DevOps Ready**: Docker, CI/CD, and monitoring
-- ✅ **Documentation First**: Extensive guides and API docs
-- ✅ **Interview Ready**: Perfect for technical demonstrations
 
 ## 👤 Author
 
