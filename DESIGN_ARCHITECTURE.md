@@ -229,17 +229,6 @@ src/main/java/com/meko/restapi/
 - **Environment Variables**: External configuration
 - **Health Checks**: Built-in Spring Boot actuator endpoints
 
-### Configuration Management
-```properties
-# Development (application-dev.properties)
-spring.datasource.url=jdbc:postgresql://localhost:5432/matches_dev
-spring.jpa.hibernate.ddl-auto=update
-
-# Production (application-prod.properties)
-spring.datasource.url=${DATABASE_URL}
-spring.jpa.hibernate.ddl-auto=validate
-```
-
 ## Performance Considerations
 
 1. **Lazy Loading**: Prevents N+1 query problems

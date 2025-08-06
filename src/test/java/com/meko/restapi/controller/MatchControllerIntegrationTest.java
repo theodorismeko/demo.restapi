@@ -31,7 +31,7 @@ class MatchControllerIntegrationTest {
     private ObjectMapper objectMapper;
 
     @Test
-    void createMatch_ShouldReturnCreated_WhenValidInput() throws Exception {
+    void createMatchShouldReturnCreatedWhenValidInput() throws Exception {
         MatchDTO matchDTO = new MatchDTO();
         matchDTO.setDescription("Premier League: Arsenal vs Manchester United");
         matchDTO.setMatchDate(LocalDate.now().plusDays(7));
@@ -51,14 +51,14 @@ class MatchControllerIntegrationTest {
     }
 
     @Test
-    void getAllMatches_ShouldReturnOk() throws Exception {
+    void getAllMatchesShouldReturnOk() throws Exception {
         mockMvc.perform(get("/api/matches"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
-    void createMatch_ShouldReturnBadRequest_WhenInvalidInput() throws Exception {
+    void createMatchShouldReturnBadRequestWhenInvalidInput() throws Exception {
         MatchDTO invalidMatch = new MatchDTO();
         // Missing required fields
 
@@ -69,7 +69,7 @@ class MatchControllerIntegrationTest {
     }
 
     @Test
-    void getMatch_ShouldReturnNotFound_WhenMatchDoesNotExist() throws Exception {
+    void getMatchShouldReturnNotFoundWhenMatchDoesNotExist() throws Exception {
         mockMvc.perform(get("/api/matches/999999"))
                 .andExpect(status().isNotFound());
     }

@@ -15,7 +15,6 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = "matchOdds")
 @ToString(exclude = "matchOdds")
 public class Match {
     

@@ -58,7 +58,7 @@ class MatchServiceTest {
     }
 
     @Test
-    void getMatchById_ShouldReturnMatch_WhenMatchExists() {
+    void getMatchByIdShouldReturnMatchWhenMatchExists() {
         // Given
         when(matchRepository.findById(1L)).thenReturn(Optional.of(match));
 
@@ -76,7 +76,7 @@ class MatchServiceTest {
     }
 
     @Test
-    void getMatchById_ShouldThrowResourceNotFoundException_WhenMatchDoesNotExist() {
+    void getMatchByIdShouldThrowResourceNotFoundExceptionWhenMatchDoesNotExist() {
         // Given
         when(matchRepository.findById(anyLong())).thenReturn(Optional.empty());
 
@@ -86,7 +86,7 @@ class MatchServiceTest {
     }
 
     @Test
-    void getAllMatches_ShouldReturnAllMatches() {
+    void getAllMatchesShouldReturnAllMatches() {
         // Given
         List<Match> matches = Arrays.asList(match);
         when(matchRepository.findAll()).thenReturn(matches);
@@ -104,7 +104,7 @@ class MatchServiceTest {
     }
 
     @Test
-    void createMatch_ShouldSaveAndReturnMatch() {
+    void createMatchShouldSaveAndReturnMatch() {
         // Given
         Match savedMatch = new Match();
         savedMatch.setId(1L);
@@ -129,7 +129,7 @@ class MatchServiceTest {
     }
 
     @Test
-    void updateMatch_ShouldUpdateExistingMatch() {
+    void updateMatchShouldUpdateExistingMatch() {
         // Given
         when(matchRepository.findById(1L)).thenReturn(Optional.of(match));
         when(matchRepository.save(any(Match.class))).thenReturn(match);
@@ -154,7 +154,7 @@ class MatchServiceTest {
     }
 
     @Test
-    void deleteMatch_ShouldRemoveMatch_WhenMatchExists() {
+    void deleteMatchShouldRemoveMatchWhenMatchExists() {
         // Given
         when(matchRepository.existsById(1L)).thenReturn(true);
 
@@ -167,7 +167,7 @@ class MatchServiceTest {
     }
 
     @Test
-    void deleteMatch_ShouldThrowResourceNotFoundException_WhenMatchDoesNotExist() {
+    void deleteMatchShouldThrowResourceNotFoundExceptionWhenMatchDoesNotExist() {
         // Given
         when(matchRepository.existsById(1L)).thenReturn(false);
 

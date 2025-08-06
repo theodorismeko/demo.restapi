@@ -1,6 +1,6 @@
 # Match Betting REST API
 
-A Spring Boot REST API for managing sports matches and betting odds with comprehensive CRUD operations, OpenAPI documentation, and PostgreSQL integration.
+A comprehensive Spring Boot REST API for managing sports matches and betting odds with modern development practices, and test coverage.
 
 ## 🚀 Features
 
@@ -14,6 +14,9 @@ A Spring Boot REST API for managing sports matches and betting odds with compreh
 - **Global exception handling** with custom error responses
 - **Comprehensive logging** with configurable levels
 - **Database migration** support with Hibernate DDL
+- **🆕 Complete test suite** with unit and integration tests
+- **🆕 Code coverage reporting** with JaCoCo
+- **🆕 Multiple database support** (PostgreSQL for production, H2 for testing)
 
 ## 📋 Requirements
 
@@ -25,10 +28,9 @@ A Spring Boot REST API for managing sports matches and betting odds with compreh
 ## 🏗️ Architecture
 
 The application follows a clean layered architecture:
-
 ```
 ┌─────────────────┐
-│   Controllers   │ ← REST endpoints & validation  
+│   Controllers   │ ← REST endpoints & validation
 ├─────────────────┤
 │    Services     │ ← Business logic & transactions
 ├─────────────────┤
@@ -58,6 +60,10 @@ The application is configured to use PostgreSQL as the primary database. When ru
 - Password: `password`
 - Port: `5432`
 
+### 🆕 Multi-Database Support
+- **Production**: PostgreSQL with full persistence
+- **Testing**: H2 in-memory database for fast test execution
+
 ### Database Initialization
 A custom initialization script is mounted at `/docker/init.sql` that runs when the PostgreSQL container first starts. You can add custom SQL commands for:
 - Creating initial tables
@@ -67,7 +73,6 @@ A custom initialization script is mounted at `/docker/init.sql` that runs when t
 ### Application Properties
 The key database configurations in `application.properties`:
 ```properties
-spring.jpa.database=POSTGRESQL
 spring.datasource.url=jdbc:postgresql://localhost:5432/matches
 spring.jpa.hibernate.ddl-auto=update
 ```
@@ -114,13 +119,13 @@ spring.jpa.hibernate.ddl-auto=update
    ./mvnw spring-boot:run
    ```
 
-3. **Access the application at** http://localhost:8080
+3. **Access the application at** http://localhost:8088
 
 ## 📚 API Documentation
 
 ### Interactive Documentation
-- **Swagger UI**: http://localhost:8080/swagger-ui.html
-- **OpenAPI Spec**: http://localhost:8080/api-docs
+- **Swagger UI**: http://localhost:8088/swagger-ui.html
+- **OpenAPI Spec**: http://localhost:8088/api-docs
 
 ### Endpoints Overview
 
@@ -141,7 +146,7 @@ spring.jpa.hibernate.ddl-auto=update
 
 ### Create a Match
 ```bash
-curl -X POST http://localhost:8080/api/matches \
+curl -X POST http://localhost:8088/api/matches \
   -H "Content-Type: application/json" \
   -d '{
     "description": "OSFP-PAO",
@@ -155,7 +160,7 @@ curl -X POST http://localhost:8080/api/matches \
 
 ### Create Match Odds
 ```bash
-curl -X POST http://localhost:8080/api/match-odds \
+curl -X POST http://localhost:8088/api/match-odds \
   -H "Content-Type: application/json" \
   -d '{
     "matchId": 1,
@@ -166,7 +171,7 @@ curl -X POST http://localhost:8080/api/match-odds \
 
 ### Get All Matches
 ```bash
-curl http://localhost:8080/api/matches
+curl http://localhost:8088/api/matches
 ```
 
 ## 🗂️ Project Structure
@@ -196,22 +201,34 @@ demo.restapi/
 │   │   │   ├── repository/
 │   │   │   │   ├── MatchRepository.java   # Match JPA repository
 │   │   │   │   └── MatchOddsRepository.java # Match odds JPA repository
-│   │   │   └── service/
-│   │   │       ├── MatchService.java      # Service interface
-│   │   │       └── impl/
-│   │   │           └── MatchServiceImpl.java # Service implementation
+│   │   │   ├── service/
+│   │   │   │   ├── MatchService.java      # Service interface
+│   │   │   │   └── impl/
+│   │   │   │       └── MatchServiceImpl.java # Service implementation
+│   │   │   └── util/                      # 🆕 Utility classes
 │   │   └── resources/
-│   │       └── application.properties     # Application configuration
-│   └── test/
-│       └── java/com/meko/restapi/
-│           └── ApplicationTests.java      # Basic Spring Boot test
+│   │       ├── application.properties     # Application configuration
+│   │       └── application-test.properties # 🆕 Test configuration
+│   └── test/                             # 🆕 Comprehensive test suite
+│       ├── java/com/meko/restapi/
+│       │   ├── ApplicationTests.java     # Application context test
+│       │   ├── controller/
+│       │   │   └── MatchControllerIntegrationTest.java # Integration tests
+│       │   └── service/
+│       │       └── MatchServiceTest.java # Unit tests
+│       └── resources/
+│           └── application-test.properties
 ├── docker/
 │   └── init.sql                          # PostgreSQL initialization script
-├── docker-compose.yml                    # Multi-container Docker app
-├── Dockerfile                           # Application container definition
-├── pom.xml                             # Maven dependencies and build config
-├── DESIGN_ARCHITECTURE.md             # Architecture and design decisions
-└── README.md                          # This file
+├── target/                              # 🆕 Build outputs
+│   ├── site/jacoco/                     # Code coverage reports
+│   ├── surefire-reports/                # Test reports
+│   └── test-classes/                    # Compiled test classes
+├── docker-compose.yml                   # Multi-container Docker app
+├── Dockerfile                          # Application container definition
+├── pom.xml                            # Maven dependencies and build config
+├── DESIGN_ARCHITECTURE.md            # Architecture and design decisions
+└── README.md                         # This file
 ```
 
 ## ⚙️ Configuration
@@ -231,6 +248,15 @@ spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.format_sql=true
 ```
 
+### 🆕 Test Configuration
+Separate test configuration in `application-test.properties`:
+```properties
+# H2 In-Memory Database for Testing
+spring.datasource.url=jdbc:h2:mem:testdb
+spring.jpa.hibernate.ddl-auto=create-drop
+spring.jpa.show-sql=false
+```
+
 ### Environment Variables
 When running with Docker, the following environment variables are used:
 
@@ -242,17 +268,56 @@ SPRING_DATASOURCE_PASSWORD=password
 
 ## 🧪 Testing
 
-### Run Tests
+### 🆕 Comprehensive Test Suite
+
+The project now includes a complete testing strategy:
+
+#### Unit Tests
+- **Service Layer Tests**: `MatchServiceTest.java`
+- **Business Logic Validation**: Isolated component testing
+- **Mock Dependencies**: Using Mockito for external dependencies
+
+#### Integration Tests
+- **Controller Integration**: `MatchControllerIntegrationTest.java`
+- **End-to-End API Testing**: Full request/response cycle testing
+- **Database Integration**: Using Testcontainers with real PostgreSQL
+
+#### Test Commands
 ```bash
+# Run all tests
 ./mvnw test
+
+# Run tests with coverage
+./mvnw clean test jacoco:report
+
+# Run specific test class
+./mvnw test -Dtest=MatchServiceTest
+
+# Run integration tests only
+./mvnw test -Dtest=*IntegrationTest
 ```
 
-### Test Coverage
-Currently includes:
-- Context loading test
-- Basic application startup validation
+### 🆕 Code Coverage
+- **JaCoCo Integration**: Automatic code coverage reporting
+- **Coverage Reports**: Available in `target/site/jacoco/index.html`
+- **Coverage Metrics**: Line, branch, and method coverage tracking
 
-*Note: Additional unit and integration tests should be added for production use.*
+#### View Coverage Report
+```bash
+# Generate coverage report
+./mvnw clean test jacoco:report
+
+# Open coverage report (Windows)
+start target/site/jacoco/index.html
+
+# Open coverage report (Linux/Mac)
+open target/site/jacoco/index.html
+```
+
+### 🆕 Testcontainers Integration
+- **Real Database Testing**: PostgreSQL containers for integration tests
+- **Isolated Test Environment**: Each test gets a fresh database instance
+- **Production-Like Testing**: Tests run against the same database type as production
 
 ## 🛠️ Development
 
@@ -271,6 +336,12 @@ Currently includes:
 ./mvnw spring-boot:run
 ```
 
+### 🆕 Development with Coverage
+```bash
+# Run with test coverage monitoring
+./mvnw spring-boot:run -Dspring.profiles.active=dev
+```
+
 ### Docker Build
 ```bash
 docker build -t match-betting-api .
@@ -282,7 +353,7 @@ docker build -t match-betting-api .
 |----------|------------|
 | **Framework** | Spring Boot 3.5.3 |
 | **Language** | Java 21 |
-| **Database** | PostgreSQL 15 |
+| **Database** | PostgreSQL 15 / H2 (testing) |
 | **ORM** | Spring Data JPA / Hibernate |
 | **Build Tool** | Maven |
 | **Documentation** | SpringDoc OpenAPI 3 |
@@ -290,11 +361,92 @@ docker build -t match-betting-api .
 | **Database Admin** | pgAdmin 4 |
 | **Code Reduction** | Lombok |
 | **Validation** | Bean Validation (JSR-303) |
+| **🆕 Testing** | JUnit 5, Mockito, Testcontainers |
+| **🆕 Code Coverage** | JaCoCo |
+| **🆕 Test Database** | H2 Database |
+
+## 📖 Documentation Guides
+
+The project includes comprehensive documentation in the `/guide` folder:
+
+### 🎯 Quick References
+- **[Quick Reference](guide/QUICK_REFERENCE.md)** - Cheat sheet for common patterns
+- **[Beginner Guide](guide/README_BEGINNER.md)** - Step-by-step tutorial for beginners
+
+### 🏗️ Architecture & Design
+- **[Design Patterns](guide/DESIGN_PATTERNS_DIAGRAM.md)** - Patterns used in the application
+- **[Spring Patterns Analysis](guide/SPRING_PATTERNS_ANALYSIS.md)** - Spring-specific patterns
+- **[Visual Diagrams](guide/VISUAL_DIAGRAMS.md)** - Architecture diagrams and flowcharts
+
+### 🧪 Testing & Quality
+- **[CI/CD Testing Guide](guide/CI_CD_TESTING_GUIDE.md)** - Testing strategies and CI/CD setup
+- **[JaCoCo Configuration](guide/JACOCO_ENCODING_FIX.md)** - Code coverage setup help
+
+### 💼 Interview Preparation
+- **[Interview Preparation](guide/INTERVIEW_PREPARATION_GUIDE.md)** - Technical interview prep
+- **[Skills Demo](guide/INTERVIEW_SKILLS_DEMO.md)** - How to demonstrate project skills
+- **[8-Hour Interview Sprint](guide/8_HOUR_INTERVIEW_SPRINT.md)** - Intensive interview preparation
+
+### 🔍 Code Review
+- **[Code Review Guidelines](guide/CODE_REVIEW_DETAILED.md)** - Best practices for code review
+- **[Comprehensive Review](guide/COMPREHENSIVE_CODE_REVIEW.md)** - Detailed code analysis
+
+## 🚀 Getting Started for Developers
+
+### 1. Quick Setup
+```bash
+git clone <repository-url>
+cd demo.restapi
+docker-compose up -d
+```
+
+### 2. Development Workflow
+```bash
+# Start development
+./mvnw spring-boot:run
+
+# Run tests during development
+./mvnw test -Dtest=*Test
+
+# Check code coverage
+./mvnw jacoco:report
+```
+
+### 3. Before Committing
+```bash
+# Run full test suite
+./mvnw clean test
+
+# Check code coverage
+./mvnw jacoco:report
+
+# Verify build
+./mvnw clean package
+```
+
+## 🎯 Project Highlights
+
+This project demonstrates:
+
+- ✅ **Clean Architecture**: Proper separation of concerns
+- ✅ **Test-Driven Development**: Comprehensive test coverage
+- ✅ **Enterprise Patterns**: Industry-standard design patterns
+- ✅ **DevOps Ready**: Docker, CI/CD, and monitoring
+- ✅ **Documentation First**: Extensive guides and API docs
+- ✅ **Interview Ready**: Perfect for technical demonstrations
 
 ## 👤 Author
 
 **Theodoros Meko**
 - Email: mekotheod@gmail.com
 - GitHub: [@theodorismeko](https://github.com/theodorismeko)
+
+---
+
+## 🔗 Quick Links
+
+- **[API Documentation](http://localhost:8088/swagger-ui.html)** - Interactive API explorer
+- **[Code Coverage Report](target/site/jacoco/index.html)** - Test coverage metrics
+- **[Database Admin](http://localhost:5050)** - pgAdmin interface
 
 
